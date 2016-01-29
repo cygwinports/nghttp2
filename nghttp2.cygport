@@ -1,0 +1,65 @@
+inherit python-distutils python3-distutils
+
+NAME="nghttp2"
+VERSION=1.6.0
+RELEASE=1
+CATEGORY="Libs"
+SUMMARY="HTTP/2 C library"
+DESCRIPTION=
+HOMEPAGE="https://nghttp2.org/"
+SRC_URI="https://github.com/tatsuhiro-t/nghttp2/releases/download/v${VERSION}/nghttp2-${VERSION}.tar.xz"
+
+#BUILDREQUIRES=(
+#	autoconf automake libtool pkg-config
+#	CUnit libev-devel libevent-devel libxml2-devel openssl-devel zlib-devel
+#	python python-cython python3
+#)
+
+PKG_NAMES="nghttp2 libnghttp2_14 libnghttp2-devel python-nghttp2 python3-nghttp2"
+nghttp2_CATEGORY="Net"
+nghttp2_SUMMARY="HTTP/2 utilities"
+nghttp2_CONTENTS="
+	usr/bin/*.exe
+	usr/share/doc/
+	usr/share/man/man1/
+	usr/share/nghttp2/
+"
+libnghttp2_14_CONTENTS="usr/bin/cygnghttp2-14.dll"
+libnghttp2_devel_CONTENTS="
+	usr/include/nghttp2/
+	usr/lib/libnghttp2.dll.a
+	usr/lib/pkgconfig/libnghttp2.pc
+"
+python_nghttp2_CATEGORY="Python"
+python_nghttp2_CONTENTS=${PYTHON_SITELIB#/}
+python3_nghttp2_CATEGORY="Python"
+python3_nghttp2_CONTENTS=${PYTHON3_SITELIB#/}
+
+DIFF_EXCLUDES="integration-tests"
+
+src_compile() {
+	cd ${S}
+	cygautoreconf
+	cd ${B}
+	# build bindings manually for Python 2 and 3
+	cygconf --disable-python-bindings
+	cygmake
+
+	pushd python
+	cython -o nghttp2.c ${S}/python/nghttp2.pyx
+	python_distutils_compile
+	python3_distutils_compile
+	popd
+}
+
+src_install() {
+	cd ${B}
+	cyginstall
+
+	pushd python
+	python_distutils_install
+	python_optimize
+	python3_distutils_install
+	python3_optimize
+	popd
+}
