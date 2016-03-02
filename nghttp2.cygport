@@ -1,7 +1,7 @@
 inherit python-distutils python3-distutils
 
 NAME="nghttp2"
-VERSION=1.6.0
+VERSION=1.7.1
 RELEASE=1
 CATEGORY="Libs"
 SUMMARY="HTTP/2 C library"
