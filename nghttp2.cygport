@@ -1,8 +1,8 @@
-inherit python-distutils python3-distutils
+inherit python2-distutils python3-distutils
 
 NAME="nghttp2"
 VERSION=1.14.0
-RELEASE=1
+RELEASE=2
 CATEGORY="Libs"
 SUMMARY="HTTP/2 C library"
 DESCRIPTION="nghttp2 is an implementation of HTTP/2 and its header compression
@@ -18,7 +18,7 @@ SRC_URI="https://github.com/tatsuhiro-t/nghttp2/releases/download/v${VERSION}/ng
 #	python python-cython python3
 #)
 
-PKG_NAMES="nghttp2 libnghttp2_14 libnghttp2-devel python-nghttp2 python3-nghttp2"
+PKG_NAMES="nghttp2 libnghttp2_14 libnghttp2-devel python2-nghttp2 python3-nghttp2"
 nghttp2_CATEGORY="Net"
 nghttp2_SUMMARY="HTTP/2 utilities"
 nghttp2_CONTENTS="
@@ -33,8 +33,9 @@ libnghttp2_devel_CONTENTS="
 	usr/lib/libnghttp2.dll.a
 	usr/lib/pkgconfig/libnghttp2.pc
 "
-python_nghttp2_CATEGORY="Python"
-python_nghttp2_CONTENTS=${PYTHON_SITELIB#/}
+python2_nghttp2_CATEGORY="Python"
+python2_nghttp2_OBSOLETES="python-nghttp2"
+python2_nghttp2_CONTENTS=${PYTHON2_SITELIB#/}
 python3_nghttp2_CATEGORY="Python"
 python3_nghttp2_CONTENTS=${PYTHON3_SITELIB#/}
 
@@ -50,7 +51,7 @@ src_compile() {
 
 	pushd python
 	cython -o nghttp2.c ${S}/python/nghttp2.pyx
-	python_distutils_compile
+	python2_distutils_compile
 	python3_distutils_compile
 	popd
 }
@@ -60,9 +61,7 @@ src_install() {
 	cyginstall
 
 	pushd python
-	python_distutils_install
-	python_optimize
+	python2_distutils_install
 	python3_distutils_install
-	python3_optimize
 	popd
 }
