@@ -1,8 +1,8 @@
-inherit python2-distutils python3-distutils
+inherit python-wheel
 
 NAME="nghttp2"
-VERSION=1.14.0
-RELEASE=2
+VERSION=1.23.1
+RELEASE=1
 CATEGORY="Libs"
 SUMMARY="HTTP/2 C library"
 DESCRIPTION="nghttp2 is an implementation of HTTP/2 and its header compression
@@ -51,8 +51,7 @@ src_compile() {
 
 	pushd python
 	cython -o nghttp2.c ${S}/python/nghttp2.pyx
-	python2_distutils_compile
-	python3_distutils_compile
+	python_wheel_compile
 	popd
 }
 
@@ -61,7 +60,6 @@ src_install() {
 	cyginstall
 
 	pushd python
-	python2_distutils_install
-	python3_distutils_install
+	python_wheel_install
 	popd
 }
