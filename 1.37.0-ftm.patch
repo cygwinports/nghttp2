@@ -1,0 +1,11 @@
+--- origsrc/nghttp2-1.37.0/configure.ac	2019-03-08 07:24:40.000000000 -0500
++++ src/nghttp2-1.37.0/configure.ac	2019-03-26 23:02:54.203125000 -0400
+@@ -180,7 +180,7 @@ fi
+ save_CXXFLAGS="$CXXFLAGS"
+ CXXFLAGS=
+ 
+-AX_CXX_COMPILE_STDCXX([14], [noext], [optional])
++AX_CXX_COMPILE_STDCXX([14], [ext], [optional])
+ 
+ CXX1XCXXFLAGS="$CXXFLAGS"
+ CXXFLAGS="$save_CXXFLAGS"

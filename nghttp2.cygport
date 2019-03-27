@@ -1,7 +1,7 @@
 inherit python-wheel
 
 NAME="nghttp2"
-VERSION=1.31.0
+VERSION=1.37.0
 RELEASE=1
 CATEGORY="Libs"
 SUMMARY="HTTP/2 C library"
@@ -11,6 +11,7 @@ reusable C library.  Also included are an HTTP/2 client, server, proxy, and a
 load test and benchmarking tool for HTTP/2."
 HOMEPAGE="https://nghttp2.org/"
 SRC_URI="https://github.com/tatsuhiro-t/nghttp2/releases/download/v${VERSION}/nghttp2-${VERSION}.tar.xz"
+PATCH_URI="1.37.0-ftm.patch"
 
 #BUILDREQUIRES=(
 #	autoconf automake libtool pkg-config
@@ -18,7 +19,8 @@ SRC_URI="https://github.com/tatsuhiro-t/nghttp2/releases/download/v${VERSION}/ng
 #	python python-cython python3
 #)
 
-PKG_NAMES="nghttp2 libnghttp2_14 libnghttp2-devel python2-nghttp2 python3-nghttp2"
+PKG_NAMES="nghttp2 libnghttp2_14 libnghttp2-devel
+	   python27-nghttp2 python36-nghttp2 python37-nghttp2"
 nghttp2_CATEGORY="Net"
 nghttp2_SUMMARY="HTTP/2 utilities"
 nghttp2_CONTENTS="
@@ -33,11 +35,14 @@ libnghttp2_devel_CONTENTS="
 	usr/lib/libnghttp2.dll.a
 	usr/lib/pkgconfig/libnghttp2.pc
 "
-python2_nghttp2_CATEGORY="Python"
-python2_nghttp2_OBSOLETES="python-nghttp2"
-python2_nghttp2_CONTENTS=${PYTHON2_SITELIB#/}
-python3_nghttp2_CATEGORY="Python"
-python3_nghttp2_CONTENTS=${PYTHON3_SITELIB#/}
+python27_nghttp2_CATEGORY="Python"
+python27_nghttp2_OBSOLETES="python-nghttp2 python2-nghttp2"
+python27_nghttp2_CONTENTS="usr/lib/python2.7/site-packages/*nghttp2*"
+python36_nghttp2_CATEGORY="Python"
+python36_nghttp2_OBSOLETES="python3-nghttp2"
+python36_nghttp2_CONTENTS="usr/lib/python3.6/site-packages/*nghttp2*"
+python37_nghttp2_CATEGORY="Python"
+python37_nghttp2_CONTENTS="usr/lib/python3.7/site-packages/*nghttp2*"
 
 DIFF_EXCLUDES="integration-tests"
 
